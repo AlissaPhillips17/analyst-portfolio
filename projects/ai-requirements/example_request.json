@@ -1,0 +1,22 @@
+{
+  "source_request": "Measure whether the redesigned checkout CTA improves completed purchases.",
+  "event_name": "checkout_cta_clicked",
+  "trigger": "Customer selects the checkout CTA on the cart page",
+  "identity_key": "anonymous_id",
+  "required_properties": ["event_id", "event_ts_utc", "session_id", "page_name", "cta_variant"],
+  "primary_metric": {
+    "name": "completed_order_session_rate",
+    "numerator": "eligible sessions linked to at least one completed order",
+    "denominator": "eligible cart sessions exposed to a test variant",
+    "grain": "session"
+  },
+  "owner": "Digital analytics",
+  "open_questions": ["How are cross-device orders linked to sessions?", "What is the refund and late-order window?"],
+  "example_payload": {
+    "event_id": "evt_demo_001",
+    "event_ts_utc": "2026-01-01T00:00:00Z",
+    "session_id": "session_demo_001",
+    "page_name": "cart",
+    "cta_variant": "variant_b"
+  }
+}
