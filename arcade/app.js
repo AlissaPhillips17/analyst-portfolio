@@ -19,7 +19,7 @@ const content=document.getElementById('mission-content');
 const feedback=document.getElementById('feedback');
 let active=0, selected=[];
 let completed=[];
-try {completed=LabLogic.cleanProgress(JSON.parse(localStorage.getItem('alissa-lab-progress-v1')||'[]'));} catch(e) {completed=[];}
+try {completed=LabLogic.cleanProgress(JSON.parse(localStorage.getItem('alissa-lab-progress-v2')||'[]'));} catch(e) {completed=[];}
 function updateProgress(){
  document.getElementById('progress-label').textContent=`${completed.length} / 3 missions explored`;
  document.getElementById('progress-fill').style.width=`${completed.length/3*100}%`;
@@ -29,21 +29,32 @@ function updateProgress(){
  });
 }
 function render(mission){
- active=mission;selected=[];const m=missions[active];
+ active=mission;const m=missions[active];
  document.getElementById('mission-label').textContent=m.label;
  document.getElementById('code-link').href=repo+m.path;
  document.getElementById('hint').textContent=m.hint;
- document.getElementById('hint').hidden=true;document.getElementById('hint-toggle').setAttribute('aria-expanded','false');
+ document.getElementById('hint').hidden=true;
+ document.getElementById('hint-toggle').setAttribute('aria-expanded','false');
  feedback.hidden=true;feedback.innerHTML='';feedback.classList.remove('incorrect');
- content.innerHTML=`<div class="mission-body"><h3>${m.title}</h3><p class="scenario">${m.scenario}</p>${m.evidence}<p class="question">${m.question}</p><div class="choices ${m.multi?'multi':''}" role="group" aria-label="Answer choices">${m.options.map(([id,text],i)=>`<button class="choice" data-answer="${id}" aria-pressed="false"><span class="choice-marker" aria-hidden="true">${m.multi?'':String.fromCharCode(65+i)}</span><span>${text}</span></button>`).join('')}</div><div class="answer-actions"><button class="primary" id="check-answer">Check my reasoning <span aria-hidden="true">↗</span></button><span class="answer-help">${m.multi?'Select two answers.':'Choose an answer, then check it.'}</span></div></div>`;
- content.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>{
-  const id=btn.dataset.answer;
-  selected=m.multi?(selected.includes(id)?selected.filter(x=>x!==id):[...selected,id]):[id];
-  content.querySelectorAll('.choice').forEach(b=>{const on=selected.includes(b.dataset.answer);b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on));if(m.multi)b.querySelector('.choice-marker').textContent=on?'✓':'';});
-  feedback.hidden=true;
- }));
- document.getElementById('check-answer').addEventListener('click',check);
- updateProgress();
+ const body=[
+ `<h3>Repair the revenue report.</h3><p class="scenario">Two completed orders total $120. A purchase retry inflated the report. Exclude the duplicate event, then validate the corrected total.</p><div class="table-wrap"><table><thead><tr><th>INCLUDE</th><th>EVENT ID</th><th>ORDER</th><th>REVENUE</th></tr></thead><tbody>${[['evt_002','O-101',49],['evt_003','O-101',49],['evt_005','O-102',71]].map(([id,order,value])=>`<tr><td><input type="checkbox" class="event-include" data-order="${order}" data-value="${value}" checked aria-label="Include ${id}"></td><td>${id}</td><td>${order}</td><td>$${value}</td></tr>`).join('')}</tbody></table></div><div class="metric"><span class="metric-label">REPORTED REVENUE</span><div class="metric-value" id="revenue-total">$169</div><span class="metric-sub">Order-system total: $120</span></div><button class="primary" id="validate-work">Validate reconciliation</button>`,
+ `<h3>Investigate before rollout.</h3><p class="scenario">The overall conversion lift is positive. Open each segment and the revenue guardrail, then write a recommendation grounded in what you find. Segment data below is illustrative, not a significance test.</p><label for="segment">Inspect audience segment</label><select id="segment"><option value="">Choose a segment</option><option value="desktop">Desktop</option><option value="mobile">Mobile</option></select><div class="metric" id="segment-evidence">Select a segment to inspect its conversion rates.</div><details id="guardrail-review"><summary>Open revenue &amp; refund guardrails</summary><p>Revenue per visitor: $6.24 control / $6.51 variant. Revenue uncertainty and the completed refund window are missing.</p></details><label for="recommendation">Your recommendation</label><textarea id="recommendation" rows="3" placeholder="What would you do next, and what evidence is still missing?"></textarea><button class="primary" id="validate-work">Review my investigation</button>`,
+ `<h3>Make the draft implementable.</h3><p class="scenario">Resolve the undefined denominator and missing identity field. Use all assigned visitors as the eligible population, including visitors who did not click. This deterministic review checks the contract; it does not call an AI model.</p><label for="denominator">Conversion denominator</label><input id="denominator" type="text" placeholder="TBD — define the eligible population"><label for="payload">Example payload (editable JSON)</label><textarea id="payload" rows="8" spellcheck="false">{"event_id":"evt_demo_001","session_id":"session_demo_001","event_ts_utc":"2026-01-01T00:00:00Z","cta_variant":"variant_b"}</textarea><p class="table-note">Required identity key: anonymous_id. Use synthetic values.</p><button class="primary" id="validate-work">Run contract validation</button>`
+ ][mission];
+ content.innerHTML=`<div class="mission-body practical">${body}</div>`;
+ if(mission===0)content.querySelectorAll('.event-include').forEach(el=>el.addEventListener('change',()=>{document.getElementById('revenue-total').textContent='$'+[...content.querySelectorAll('.event-include:checked')].reduce((n,x)=>n+Number(x.dataset.value),0);}));
+ const inspected=new Set();let guardrailOpened=false;
+ if(mission===1){document.getElementById('segment').addEventListener('change',e=>{const v=e.target.value;if(v)inspected.add(v);document.getElementById('segment-evidence').textContent=v==='desktop'?'Desktop: 8.0% control → 9.6% variant (+1.6 percentage points).':v==='mobile'?'Mobile: 7.6% control → 8.2% variant (+0.6 percentage points).':'Select a segment to inspect its conversion rates.';});document.getElementById('guardrail-review').addEventListener('toggle',e=>{if(e.target.open)guardrailOpened=true;});}
+ document.getElementById('validate-work').addEventListener('click',()=>{
+  let ok=false,message='';
+  if(mission===0){const rows=[...content.querySelectorAll('.event-include:checked')];ok=rows.length===2&&new Set(rows.map(x=>x.dataset.order)).size===2;message=ok?'Two unique completed orders reconcile to $120. The excluded retry inflated revenue by $49. Investigate the duplicate trigger and enforce order-level deduplication.':'Keep one event per completed order. Removing a valid order loses revenue; retaining both O-101 events counts the retry twice.';}
+  if(mission===1){const note=document.getElementById('recommendation').value.trim();ok=inspected.size===2&&guardrailOpened&&note.length>=30;message=ok?'Investigation recorded. This check confirms you inspected the evidence and supplied a recommendation; it does not grade your writing. A defensible next step is to validate revenue uncertainty and refunds before considering a staged rollout. Segment point estimates alone do not establish different treatment effects.':'Inspect Desktop, Mobile, and the revenue guardrail, then write a recommendation of at least 30 characters. Address what remains unknown before rollout.';}
+  if(mission===2){let data;try{data=JSON.parse(document.getElementById('payload').value);}catch(e){message='The payload is not valid JSON. Check quotes, commas, and braces.';}
+   if(data){const d=document.getElementById('denominator').value.trim();const errors=[];if(!/assigned/i.test(d)||!/visitor|user|participant/i.test(d))errors.push('Define the denominator as all assigned visitors, not just clickers.');if(!data||typeof data!=='object'||Array.isArray(data))errors.push('The payload must be a JSON object.');else{for(const key of ['event_id','session_id','anonymous_id','event_ts_utc','cta_variant'])if(typeof data[key]!=='string'||!data[key].trim())errors.push('Provide a nonempty string for '+key+'.');if(typeof data.event_ts_utc==='string'&&(!data.event_ts_utc.endsWith('Z')||Number.isNaN(Date.parse(data.event_ts_utc))))errors.push('Use a valid UTC timestamp ending in Z.');}ok=!errors.length;message=ok?'Contract checks passed. The eligible population is explicit and the payload supplies the required fields. Human review still needs to confirm consent, identity availability, assignment logic, and implementation feasibility.':errors.join(' ');}
+  }
+  feedback.hidden=false;feedback.classList.toggle('incorrect',!ok);feedback.replaceChildren();const heading=document.createElement('strong');heading.textContent=ok?'✓ Work validated':'Review these findings';const paragraph=document.createElement('p');paragraph.textContent=message;feedback.append(heading,paragraph);
+  if(ok&&!completed.includes(mission)){completed.push(mission);try{localStorage.setItem('alissa-lab-progress-v2',JSON.stringify(completed));}catch(e){}}updateProgress();
+ });updateProgress();
 }
 function check(){
  const m=missions[active];feedback.hidden=false;
@@ -53,7 +64,7 @@ function check(){
  const correct=LabLogic.evaluate(active,selected);feedback.classList.toggle('incorrect',!correct);
  if(correct){
   if(!completed.includes(active))completed.push(active);
-  try{localStorage.setItem('alissa-lab-progress-v1',JSON.stringify(completed));}catch(e){}
+  try{localStorage.setItem('alissa-lab-progress-v2',JSON.stringify(completed));}catch(e){}
   feedback.innerHTML=`<div class="feedback-heading"><span aria-hidden="true">✓</span> ${['Measurement detective','Decision maker','AI reviewer'][active]} · mission complete</div><p>${m.explanation}</p><p class="takeaway"><strong>My takeaway:</strong> ${m.takeaway}</p><button class="next" id="next-mission">${active<2?'Explore the next mission →':'Review my portfolio →'}</button>`;
   document.getElementById('next-mission').addEventListener('click',()=>{if(active<2){render(active+1);document.getElementById('workspace').scrollIntoView({block:'start'});}else document.getElementById('summary-dialog').showModal();});
  }else{feedback.innerHTML=`<div class="feedback-heading">A useful clue to reconsider.</div><p>${m.incorrect}</p><p class="takeaway">Try another choice. Exploring the reasoning is the point.</p>`;}
@@ -61,7 +72,7 @@ function check(){
 }
 document.querySelectorAll('.mission-tab').forEach(tab=>tab.addEventListener('click',()=>render(Number(tab.dataset.mission))));
 document.getElementById('hint-toggle').addEventListener('click',()=>{const hint=document.getElementById('hint');hint.hidden=!hint.hidden;document.getElementById('hint-toggle').setAttribute('aria-expanded',String(!hint.hidden));});
-document.getElementById('reset').addEventListener('click',()=>{completed=[];try{localStorage.removeItem('alissa-lab-progress-v1');}catch(e){}render(0);});
+document.getElementById('reset').addEventListener('click',()=>{completed=[];try{localStorage.removeItem('alissa-lab-progress-v2');}catch(e){}render(0);});
 const summary=document.getElementById('summary-dialog');
 document.getElementById('summary-open').addEventListener('click',()=>summary.showModal());
 document.getElementById('summary-close').addEventListener('click',()=>summary.close());
