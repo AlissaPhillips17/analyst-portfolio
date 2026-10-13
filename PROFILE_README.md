@@ -1,11 +1,22 @@
-# Hi, I'm Alissa 👋
+# Hi, I'm Alissa.
+### Digital analytics · Experimentation · MarTech
 
-I work at the intersection of digital analytics, experimentation, and AI-ready data. I translate business questions into measurable events, dependable metrics, and decisions teams can act on.
+I work across analytics, product, and marketing technology. I investigate measurement issues, help teams build and launch experiments, and translate business requests into clear requirements.
 
-My background includes analytics and personalization work at NBCUniversal, Universal Destinations & Experiences, Chipotle, and Subway. I am especially interested in data architecture, semantic consistency, and practical AI workflows with clear human review.
+My background includes Universal Destinations & Experiences, Chipotle, NBCUniversal, and Subway. I've worked across ecommerce, streaming and entertainment, personalization, and business intelligence.
 
-**Explore:** [Event quality](projects/event-quality/) · [Experiment analysis](projects/experimentation/) · [AI requirements](projects/ai-requirements/)
+I enjoy the part where a vague request becomes a clear plan: what we're trying to learn, what needs to be measured, and what has to work before launch.
 
-[LinkedIn](https://www.linkedin.com/in/alissap17/)
+**Tools I work with:** SQL, Adobe Analytics, Adobe Target, Adobe Launch, CJA, AJO, mParticle, Tableau, Power BI, Alteryx, Snowflake, and Databricks.
 
-> This profile README is a draft. After publishing the project repository, replace the relative project links with its full GitHub URLs.
+## Explore my work
+
+- [Portfolio website](https://alissaphillips17.github.io/analyst-portfolio/arcade/lab.html)
+- [Event quality & metric contracts](https://github.com/AlissaPhillips17/analyst-portfolio/tree/main/projects/event-quality)
+- [Experiment decision analysis](https://github.com/AlissaPhillips17/analyst-portfolio/tree/main/projects/experimentation)
+- [AI-assisted requirements](https://github.com/AlissaPhillips17/analyst-portfolio/tree/main/projects/ai-requirements)
+- [Ali’s Analytics Rush](https://alissaphillips17.github.io/analyst-portfolio/arcade/) — a game inspired by the stakeholder queue.
+
+Portfolio projects use synthetic data and illustrative scenarios.
+
+[Connect on LinkedIn](https://www.linkedin.com/in/alissap17/)
