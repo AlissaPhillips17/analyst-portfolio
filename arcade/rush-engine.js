@@ -1,0 +1,10 @@
+(function(root){
+const modes={rush:{duration:90,arrival:14,patience:65},cozy:{duration:120,arrival:20,patience:100}};
+function create(mode='rush'){const config=modes[mode]||modes.rush;return {mode:mode in modes?mode:'rush',config,time:config.duration,arrival:config.arrival,queue:[],jobs:{},score:0,served:0,lost:0,combo:0,counts:{dashboard:0,analytics:0,feature:0},serial:0,ended:false};}
+function add(state,customer){if(state.ended)return false;if(state.queue.length>=5){state.lost++;state.combo=0;return false;}state.queue.push({...customer,id:++state.serial,patience:state.config.patience,maxPatience:state.config.patience,working:false});return true;}
+function tick(state,delta){if(state.ended)return [];delta=Math.max(0,Math.min(delta,state.time));state.time=Math.max(0,state.time-delta);state.arrival-=delta;const departed=[];state.queue.forEach(c=>c.patience=Math.max(0,c.patience-delta));for(const c of state.queue.filter(c=>c.patience<=0)){departed.push(c);state.lost++;state.combo=0;if(state.jobs[c.type]?.id===c.id)delete state.jobs[c.type];}state.queue=state.queue.filter(c=>c.patience>0);Object.values(state.jobs).forEach(j=>j.remaining=Math.max(0,j.remaining-delta));if(state.time===0)state.ended=true;return departed;}
+function startJob(state,id,type){const c=state.queue.find(c=>c.id===id);if(state.ended||!c||c.type!==type||c.working||state.jobs[type])return false;c.working=true;state.jobs[type]={id,remaining:3,total:3};return true;}
+function deliver(state,type){const job=state.jobs[type];if(state.ended||!job||job.remaining>0)return null;const c=state.queue.find(c=>c.id===job.id);if(!c){delete state.jobs[type];return null;}const points=100+Math.round(50*c.patience/c.maxPatience)+Math.min(state.combo,5)*10;state.score+=points;state.served++;state.combo++;state.counts[type]++;state.queue=state.queue.filter(ticket=>ticket.id!==c.id);delete state.jobs[type];return {customer:c,points};}
+const api={create,add,tick,startJob,deliver};
+if(typeof module!=='undefined'&&module.exports)module.exports=api;root.RushEngine=api;
+})(typeof window==='undefined'?globalThis:window);
