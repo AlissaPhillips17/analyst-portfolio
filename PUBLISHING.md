@@ -1,31 +1,21 @@
-# Portfolio and profile setup
+# Portfolio publishing
 
-The portfolio is published on GitHub Pages:
-https://alissaphillips17.github.io/analyst-portfolio/arcade/lab.html
+## One home for the work
 
-The arcade is available at:
-https://alissaphillips17.github.io/analyst-portfolio/arcade/
+The portfolio website, interactive exercises, game, and project code all live in this repository, analyst-portfolio.
 
-## Repository README
+- Portfolio: https://alissaphillips17.github.io/analyst-portfolio/arcade/lab.html
+- Game: https://alissaphillips17.github.io/analyst-portfolio/arcade/
+- GitHub profile: https://github.com/AlissaPhillips17
 
-The root README.md introduces Alissa and explains this repository. It is displayed on the analyst-portfolio repository page.
+## Profile introduction
 
-## Optional GitHub profile README
+The public AlissaPhillips17/AlissaPhillips17 repository contains only README.md. GitHub displays that short introduction on the profile page. It links visitors to the central portfolio; no projects are duplicated there.
 
-A separate public repository named exactly **AlissaPhillips17**, containing a nonempty root README.md, displays an introduction on the GitHub profile.
+PROFILE_README.md in this repository is a reference copy of that introduction. If the introduction changes, update both copies.
 
-To set it up:
-1. In GitHub, choose **New repository**.
-2. Name it **AlissaPhillips17** and select **Public**.
-3. Enable **Add README**, then create the repository.
-4. Replace its README.md with the contents of PROFILE_README.md in this portfolio repository.
+## Website updates
 
-PROFILE_README.md is finalized and already uses absolute links to this portfolio. Copy the contents, not the filename: the profile repository needs README.md.
+GitHub Pages deploys main from the repository root. Update arcade/lab.html for portfolio content, arcade/studio.css for portfolio styling, and arcade/index.html for the game page. Version stylesheet or script references when needed to refresh cached assets.
 
-This profile repository is optional. It does not host or replace the portfolio website.
-
-## Keeping the website current
-
-GitHub Pages deploys main from the repository root. Website files live in arcade/. Update arcade/lab.html for portfolio content and arcade/index.html for the game page.
-
-Public examples use synthetic data. Keep employer data, credentials, private documents, and internal screenshots out of the repository.
+Public projects use synthetic data and illustrative scenarios. Do not publish employer data, credentials, internal documents, or private screenshots.
