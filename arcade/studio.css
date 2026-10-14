@@ -6,3 +6,27 @@
 
 /* Match the Selected Work separator above the arcade entrance. */
 .arcade-feature{position:relative;margin-top:66px}.arcade-feature::before{content:"";position:absolute;left:-1px;right:-1px;top:-34px;border-top:1px solid var(--line);pointer-events:none}
+
+/* Modern, tactile controls. */
+.primary{background:#53694b;border-radius:10px;min-height:48px;font-weight:600;box-shadow:0 3px 0 #3e5038,0 7px 15px #26312612;transition:background .18s,box-shadow .18s,transform .18s}
+.primary:hover{background:#43573c;box-shadow:0 4px 0 #33442d,0 9px 18px #26312618;transform:translateY(-1px)}
+.primary:active{transform:translateY(2px);box-shadow:0 1px 0 #33442d}
+.text-button{padding:13px 18px;background:#faf9f6;border:1px solid #e2e3dc;border-radius:10px;box-shadow:0 3px 8px #26312610;min-height:48px}
+.text-button:hover{background:#f0f2eb}
+.choice{padding:15px 18px;border-radius:10px;background:#fdfcf9;border:1px solid #d9ddd2;box-shadow:0 3px 8px #2631260b;min-height:48px}
+.choice:hover{background:#f2f5ed;border-color:#a0af95}
+.choice.selected{background:#e2e9dc;border-color:#94a487;box-shadow:inset 0 0 0 1px #94a487}
+.choice:disabled{opacity:.75;box-shadow:none;cursor:default}
+.mission-tab{border-radius:10px;background:#fdfcf9;box-shadow:0 3px 8px #26312609;min-height:64px}
+.mission-tab.active{box-shadow:inset 0 0 0 1px #b1bca7;background:#e2e9dc}
+.mission-number{border-radius:7px}
+.reset,.hint-toggle,.next{padding:9px 12px;border:1px solid #e0e3d9;border-radius:8px;background:#f9faf5;text-decoration:none;min-height:38px}
+.reset:hover,.hint-toggle:hover,.next:hover{background:#e9eee2}
+.project-copy>a{padding:10px 14px;border:1px solid #d7decf;border-radius:9px;background:#fafbf7;box-shadow:0 2px 5px #26312608}
+.project-copy>a:hover{background:#edf2e6}
+.arcade-actions{text-align:center;margin-top:22px}
+.arcade-feature .arcade-enter{display:flex;width:min(100%,290px);margin:0 auto;justify-content:center;gap:18px;border-radius:12px;min-height:60px;padding:16px 24px;font-size:16px;box-shadow:0 3px 0 #3e5038,0 8px 16px #2631261a}
+.arcade-enter::before{content:"▶";display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;flex:0 0 28px;border-radius:50%;background:#faf9f6;color:#53694b;font-size:12px;padding-left:2px}
+.arcade-actions small{text-align:center}
+button:focus-visible,a:focus-visible{outline:3px solid #91b8c7;outline-offset:4px}
+@media(prefers-reduced-motion:reduce){.primary{transition:none}.primary:hover,.primary:active{transform:none}}
