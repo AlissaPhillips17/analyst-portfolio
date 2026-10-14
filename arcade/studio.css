@@ -26,7 +26,7 @@
 .project-copy>a:hover{background:#edf2e6}
 .arcade-actions{text-align:center;margin-top:22px}
 .arcade-feature .arcade-enter{display:flex;width:min(100%,290px);margin:0 auto;justify-content:center;gap:18px;border-radius:12px;min-height:60px;padding:16px 24px;font-size:16px;box-shadow:0 3px 0 #3e5038,0 8px 16px #2631261a}
-.arcade-enter::before{content:"▶";display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;flex:0 0 28px;border-radius:50%;background:#faf9f6;color:#53694b;font-size:12px;padding-left:2px}
+.arcade-enter::before{content:"";display:block;width:28px;height:28px;flex:0 0 28px;border-radius:50%;padding:0;background:#faf9f6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath fill='%2353694b' d='M10.5 7L21 14L10.5 21Z'/%3E%3C/svg%3E") center/28px 28px no-repeat}
 .arcade-actions small{text-align:center}
 button:focus-visible,a:focus-visible{outline:3px solid #91b8c7;outline-offset:4px}
 @media(prefers-reduced-motion:reduce){.primary{transition:none}.primary:hover,.primary:active{transform:none}}
