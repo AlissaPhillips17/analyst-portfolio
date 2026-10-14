@@ -16,16 +16,16 @@ My background spans Universal Destinations & Experiences, Chipotle, NBCUniversal
 
 ## Experience
 
-**Universal Destinations & Experiences — Senior MarTech Personalization Strategist (contract)**  
+**Universal Destinations & Experiences | Senior MarTech Personalization Strategist (contract)**  
 Experimentation and personalization across Universal Orlando Resort and Universal Studios Hollywood ecommerce properties. My work includes Adobe Target setup, test strategy, backlog prioritization, and QA of CTAs, redirects, and cart behavior.
 
-**Chipotle — Senior Digital Analyst**  
+**Chipotle | Senior Digital Analyst**  
 Validated transactional data with SQL in Snowflake and Databricks, investigated tagging and attribution issues, and used Adobe Analytics, Customer Journey Analytics, and Adobe Journey Optimizer to support reporting and personalization.
 
-**NBCUniversal — Senior Digital Strategic Analyst**  
+**NBCUniversal | Senior Digital Strategic Analyst**  
 Analytics implementation and measurement across Peacock, Fandango, Fandango at Home, and Rotten Tomatoes. I worked with Adobe Launch, mParticle, Adobe Target, and engineering teams, managed one direct report, and documented troubleshooting workflows.
 
-**Subway — Lead Business Intelligence Analyst**  
+**Subway | Lead Business Intelligence Analyst**  
 SQL analysis, Adobe Analytics and Tableau dashboards, digital measurement, marketing performance, and restaurant sales analysis.
 
 ## Explore the projects
